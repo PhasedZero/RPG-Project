@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
 
-namespace Movement {
+namespace RPG.Movement {
     public class Mover : MonoBehaviour {
         [SerializeField] private float runSpeed = 5.66f;
         [SerializeField] private float walkSpeed = 3f;
@@ -12,13 +12,11 @@ namespace Movement {
         private bool isSprinting;
         private static readonly int ForwardSpeed = Animator.StringToHash("forwardSpeed");
 
-        // Start is called before the first frame update
         private void Start() {
             animator = GetComponent<Animator>();
             navMeshAgent = GetComponent<NavMeshAgent>();
         }
 
-        // Update is called once per frame
         private void Update() {
             UpdateAnimator();
         }

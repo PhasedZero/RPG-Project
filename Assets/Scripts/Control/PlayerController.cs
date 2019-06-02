@@ -1,19 +1,17 @@
-﻿using Movement;
+﻿using RPG.Movement;
 using UnityEngine;
 
-namespace Control {
+namespace RPG.Control {
     public class PlayerController : MonoBehaviour {
         
         private Camera mainCamera;
         private Mover mover;
 
-        // Start is called before the first frame update
         private void Start() {
             mover = GetComponent<Mover>();
             mainCamera = Camera.main;
         }
 
-        // Update is called once per frame
         private void Update() {
             ProcessControls();
         }
