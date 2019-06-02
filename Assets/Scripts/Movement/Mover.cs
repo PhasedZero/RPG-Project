@@ -3,14 +3,15 @@ using UnityEngine.AI;
 
 namespace Movement {
     public class Mover : MonoBehaviour {
-        [SerializeField] private float runSpeed = 10f;
-        [SerializeField] private float walkSpeed = 5f;
+        [SerializeField] private float runSpeed = 5.66f;
+        [SerializeField] private float walkSpeed = 3f;
     
         private NavMeshAgent navMeshAgent;
         private Camera mainCamera;
         private Animator animator;
 
         private bool isSprinting;
+        private static readonly int ForwardSpeed = Animator.StringToHash("forwardSpeed");
 
         // Start is called before the first frame update
         private void Start() {
@@ -29,11 +30,11 @@ namespace Movement {
             var velocity = navMeshAgent.velocity;
             var localVelocity = transform.InverseTransformDirection(velocity);
             var speed = localVelocity.z;
-            animator.SetFloat("forwardSpeed", speed);
+            animator.SetFloat(ForwardSpeed, speed);
         }
 
         private void ProcessControls() {
-            if (Input.GetMouseButtonDown(0) || Input.GetMouseButton(0)) {
+            if (Input.GetMouseButton(0)) {
                 MoveToCursor();
             }
         
