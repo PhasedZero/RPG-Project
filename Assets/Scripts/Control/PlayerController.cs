@@ -1,4 +1,5 @@
-﻿using RPG.Movement;
+﻿using RPG.Combat;
+using RPG.Movement;
 using UnityEngine;
 
 namespace RPG.Control {
@@ -6,8 +7,10 @@ namespace RPG.Control {
         
         private Camera mainCamera;
         private Mover mover;
+        private Fighter fighter;
 
         private void Start() {
+            fighter = GetComponent<Fighter>();
             mover = GetComponent<Mover>();
             mainCamera = Camera.main;
         }
@@ -15,8 +18,22 @@ namespace RPG.Control {
         private void Update() {
             ProcessControls();
         }
-        
+
+        private void InteractWithCombat() {
+            RaycastHit[] hits = Physics.RaycastAll(GetRay());
+            foreach (var hit in hits) {
+                var target = hit.transform.GetComponent<CombatTarget>();
+                
+                if (!target) continue;
+                fighter.Attack(target);
+            }
+        }
+
         private void ProcessControls() {
+            if (Input.GetMouseButtonDown(0)) {
+                InteractWithCombat();
+            }
+
             if (Input.GetMouseButton(0)) {
                 MoveToCursor();
             }
@@ -26,11 +43,14 @@ namespace RPG.Control {
         }
         
         private void MoveToCursor() {
-            var ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-            var hasHit = Physics.Raycast(ray, out var hit);
+            var hasHit = Physics.Raycast(GetRay(), out var hit);
             if (hasHit) {
                 mover.MoveTo(hit.point);
             }
+        }
+
+        private Ray GetRay() {
+            return mainCamera.ScreenPointToRay(Input.mousePosition);
         }
     }
 }
