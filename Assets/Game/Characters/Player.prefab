@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 426477492135855696}
   - component: {fileID: 726000894}
   - component: {fileID: 4681830066410287956}
+  - component: {fileID: 6216859778233975452}
+  - component: {fileID: 5301977278537662220}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -107,6 +109,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   runSpeed: 5.66
   walkSpeed: 3
+--- !u!95 &6216859778233975452
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 426477492135855698}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: d288a0e4a2d923b46898986e979da643, type: 3}
+  m_Controller: {fileID: 9100000, guid: 3c99c925437c52a47a2e36dab31380e3, type: 2}
+  m_CullingMode: 1
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &5301977278537662220
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 426477492135855698}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f12d00e3da36b3e44a80d10f81669791, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &7606913324027528105
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -160,14 +193,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 417656, guid: 30cf93deff988e74e88a144bd2127c18, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9572094, guid: 30cf93deff988e74e88a144bd2127c18, type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: 3c99c925437c52a47a2e36dab31380e3, type: 2}
-    - target: {fileID: 9572094, guid: 30cf93deff988e74e88a144bd2127c18, type: 3}
-      propertyPath: m_ApplyRootMotion
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 444164, guid: 30cf93deff988e74e88a144bd2127c18, type: 3}

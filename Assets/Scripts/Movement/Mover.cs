@@ -7,7 +7,6 @@ namespace Movement {
         [SerializeField] private float walkSpeed = 3f;
     
         private NavMeshAgent navMeshAgent;
-        private Camera mainCamera;
         private Animator animator;
 
         private bool isSprinting;
@@ -15,14 +14,12 @@ namespace Movement {
 
         // Start is called before the first frame update
         private void Start() {
-            animator = GetComponentInChildren<Animator>();
+            animator = GetComponent<Animator>();
             navMeshAgent = GetComponent<NavMeshAgent>();
-            mainCamera = Camera.main;
         }
 
         // Update is called once per frame
         private void Update() {
-            ProcessControls();
             UpdateAnimator();
         }
 
@@ -32,26 +29,12 @@ namespace Movement {
             var speed = localVelocity.z;
             animator.SetFloat(ForwardSpeed, speed);
         }
-
-        private void ProcessControls() {
-            if (Input.GetMouseButton(0)) {
-                MoveToCursor();
-            }
         
-            if (Input.GetKeyDown("left shift")) {
-                ToggleSprint();
-            }
+        public void MoveTo(Vector3 destination) {
+            navMeshAgent.SetDestination(destination);
         }
 
-        private void MoveToCursor() {
-            var ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-            var hasHit = Physics.Raycast(ray, out var hit);
-            if (hasHit) {
-                navMeshAgent.SetDestination(hit.point);
-            }
-        }
-
-        private void ToggleSprint() {
+        public void ToggleSprint() {
             isSprinting = !isSprinting;
             navMeshAgent.speed = isSprinting ? runSpeed : walkSpeed;
         }
