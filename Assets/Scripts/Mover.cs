@@ -4,13 +4,16 @@ using UnityEngine.AI;
 public class Mover : MonoBehaviour {
     [SerializeField] private float runSpeed = 10f;
     [SerializeField] private float walkSpeed = 5f;
-    private NavMeshAgent navMeshAgent;
     
-    private bool isSprinting;
+    private NavMeshAgent navMeshAgent;
     private Camera mainCamera;
+    private Animator animator;
+
+    private bool isSprinting;
 
     // Start is called before the first frame update
     private void Start() {
+        animator = GetComponentInChildren<Animator>();
         navMeshAgent = GetComponent<NavMeshAgent>();
         mainCamera = Camera.main;
     }
@@ -18,6 +21,14 @@ public class Mover : MonoBehaviour {
     // Update is called once per frame
     private void Update() {
         ProcessControls();
+        UpdateAnimator();
+    }
+
+    private void UpdateAnimator() {
+        var velocity = navMeshAgent.velocity;
+        var localVelocity = transform.InverseTransformDirection(velocity);
+        var speed = localVelocity.z;
+        animator.SetFloat("forwardSpeed", speed);
     }
 
     private void ProcessControls() {
