@@ -10,7 +10,7 @@ public class FollowCamera : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update() {
+    private void Update() {
         transform.position = target.position;
     }
 }

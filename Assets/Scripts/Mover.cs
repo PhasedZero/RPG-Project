@@ -32,19 +32,13 @@ public class Mover : MonoBehaviour {
     }
 
     private void ProcessControls() {
-        if (Input.GetMouseButtonDown(0)) {
-            SetMoveSpeed(Input.GetKey("left ctrl"));
+        if (Input.GetMouseButtonDown(0) || Input.GetMouseButton(0)) {
             MoveToCursor();
         }
         
         if (Input.GetKeyDown("left shift")) {
             ToggleSprint();
         }
-    }
-
-    private void SetMoveSpeed(bool sprint) {
-        navMeshAgent.speed = sprint ? runSpeed : walkSpeed;
-        this.isSprinting = sprint;
     }
 
     private void MoveToCursor() {
@@ -57,10 +51,6 @@ public class Mover : MonoBehaviour {
 
     private void ToggleSprint() {
         isSprinting = !isSprinting;
-        Sprint(isSprinting);
-    }
-
-    private void Sprint(bool sprint) {
-        navMeshAgent.speed = sprint ? runSpeed : walkSpeed;
+        navMeshAgent.speed = isSprinting ? runSpeed : walkSpeed;
     }
 }
