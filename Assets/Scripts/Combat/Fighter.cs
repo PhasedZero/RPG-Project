@@ -1,4 +1,5 @@
-﻿using RPG.Movement;
+﻿using RPG.Core;
+using RPG.Movement;
 using UnityEngine;
 
 namespace RPG.Combat {
@@ -7,8 +8,10 @@ namespace RPG.Combat {
 
         private Transform target;
         private Mover mover;
+        private ActionScheduler actionScheduler;
 
         private void Start() {
+            actionScheduler = GetComponent<ActionScheduler>();
             mover = GetComponent<Mover>();
         }
 
@@ -32,8 +35,8 @@ namespace RPG.Combat {
         }
 
         public void Attack(CombatTarget combatTarget) {
+            actionScheduler.StartAction(this);
             target = combatTarget.transform;
-            print("Have at thee!");
         }
     }
 }
