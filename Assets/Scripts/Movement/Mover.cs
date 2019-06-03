@@ -1,10 +1,9 @@
-﻿using RPG.Combat;
-using RPG.Core;
+﻿using RPG.Core;
 using UnityEngine;
 using UnityEngine.AI;
 
 namespace RPG.Movement {
-    public class Mover : MonoBehaviour {
+    public class Mover : MonoBehaviour, IAction {
         [SerializeField] private float runSpeed = 5.66f;
         [SerializeField] private float walkSpeed = 3f;
 
@@ -13,12 +12,10 @@ namespace RPG.Movement {
 
         private bool isSprinting;
         private static readonly int ForwardSpeed = Animator.StringToHash("forwardSpeed");
-        private Fighter fighter;
         private ActionScheduler actionScheduler;
 
         private void Start() {
             actionScheduler = GetComponent<ActionScheduler>();
-            fighter = GetComponent<Fighter>();
             animator = GetComponent<Animator>();
             navMeshAgent = GetComponent<NavMeshAgent>();
         }
@@ -29,7 +26,6 @@ namespace RPG.Movement {
 
         public void StartMoveAction(Vector3 destination) {
             actionScheduler.StartAction(this);
-            fighter.Cancel();
             MoveTo(destination);
         }
 
@@ -38,7 +34,7 @@ namespace RPG.Movement {
             navMeshAgent.isStopped = false;
         }
         
-        public void Stop() {
+        public void Cancel() {
             navMeshAgent.isStopped = true;
         }
 
@@ -53,5 +49,6 @@ namespace RPG.Movement {
             isSprinting = !isSprinting;
             navMeshAgent.speed = isSprinting ? runSpeed : walkSpeed;
         }
+        
     }
 }
