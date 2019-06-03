@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using RPG.Combat;
+using UnityEngine;
 using UnityEngine.AI;
 
 namespace RPG.Movement {
@@ -11,14 +12,21 @@ namespace RPG.Movement {
 
         private bool isSprinting;
         private static readonly int ForwardSpeed = Animator.StringToHash("forwardSpeed");
+        private Fighter fighter;
 
         private void Start() {
+            fighter = GetComponent<Fighter>();
             animator = GetComponent<Animator>();
             navMeshAgent = GetComponent<NavMeshAgent>();
         }
 
         private void Update() {
             UpdateAnimator();
+        }
+
+        public void StartMoveAction(Vector3 destination) {
+            fighter.Cancel();
+            MoveTo(destination);
         }
 
         public void MoveTo(Vector3 destination) {
