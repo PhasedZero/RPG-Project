@@ -5,7 +5,7 @@ namespace RPG.Movement {
     public class Mover : MonoBehaviour {
         [SerializeField] private float runSpeed = 5.66f;
         [SerializeField] private float walkSpeed = 3f;
-    
+
         private NavMeshAgent navMeshAgent;
         private Animator animator;
 
@@ -21,15 +21,20 @@ namespace RPG.Movement {
             UpdateAnimator();
         }
 
+        public void MoveTo(Vector3 destination) {
+            navMeshAgent.SetDestination(destination);
+            navMeshAgent.isStopped = false;
+        }
+        
+        public void Stop() {
+            navMeshAgent.isStopped = true;
+        }
+
         private void UpdateAnimator() {
             var velocity = navMeshAgent.velocity;
             var localVelocity = transform.InverseTransformDirection(velocity);
             var speed = localVelocity.z;
             animator.SetFloat(ForwardSpeed, speed);
-        }
-        
-        public void MoveTo(Vector3 destination) {
-            navMeshAgent.SetDestination(destination);
         }
 
         public void ToggleSprint() {
