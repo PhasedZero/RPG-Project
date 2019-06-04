@@ -46,11 +46,17 @@ namespace RPG.Combat {
 
         // Animation Event
         void Hit() {
+            if (!target) return;
             target.TakeDamage(weaponDamage);
         }
 
         public void Cancel() {
-            animator.SetTrigger("stopAttack");
+            var layer = animator.GetLayerIndex("Base Layer");
+            
+            if (animator.GetCurrentAnimatorStateInfo(layer).IsName("Base Layer.Attack")) {
+                animator.SetTrigger("stopAttack");
+            }
+            
             target = null;
         }
 
