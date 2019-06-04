@@ -9,7 +9,7 @@ namespace RPG.Combat {
 
         [SerializeField] private float weaponDamage = 5f;
 
-        private Transform target;
+        private Health target;
         private Mover mover;
         private ActionScheduler actionScheduler;
         private Animator animator;
@@ -24,10 +24,10 @@ namespace RPG.Combat {
 
         private void Update() {
             timeSinceLastAttack += Time.deltaTime;
-            if (!target) return;
+            if (!target || target.IsDead) return;
 
             if (!InRange()) {
-                mover.MoveTo(target.position);
+                mover.MoveTo(target.transform.position);
             }
             else {
                 mover.Cancel();
@@ -44,21 +44,21 @@ namespace RPG.Combat {
 
         // Animation Event
         void Hit() {
-            target.GetComponent<Health>().TakeDamage(weaponDamage);
+            target.TakeDamage(weaponDamage);
         }
 
         public void Cancel() {
+            animator.SetTrigger("stopAttack");
             target = null;
-            animator.ResetTrigger("attack");
         }
 
         private bool InRange() {
-            return Vector3.Distance(transform.position, target.position) <= weaponRange;
+            return Vector3.Distance(transform.position, target.transform.position) <= weaponRange;
         }
 
         public void Attack(CombatTarget combatTarget) {
             actionScheduler.StartAction(this);
-            target = combatTarget.transform;
+            target = combatTarget.GetComponent<Health>();
         }
 
     }
