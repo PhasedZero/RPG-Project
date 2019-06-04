@@ -5,12 +5,7 @@ namespace RPG.Combat {
         [SerializeField] private float healthPoints = 100f;
         private Animator animator;
 
-        private bool isDead = false;
-
-        public bool IsDead {
-            get => isDead;
-            set => isDead = value;
-        }
+        public bool IsDead { get; private set; } = false;
 
         private void Start() {
             animator = GetComponent<Animator>();
@@ -25,9 +20,10 @@ namespace RPG.Combat {
         }
 
         private void DeathSequence() {
-            if (isDead) return;
+            if (IsDead) return;
             animator.SetBool("death",true);
-            isDead = true;
+            IsDead = true;
+            GetComponent<CapsuleCollider>().enabled = false;
         }
 
     }

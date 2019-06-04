@@ -34,6 +34,7 @@ namespace RPG.Combat {
                 AttackBehavior();
             }
         }
+
         private void AttackBehavior() {
             transform.LookAt(target.transform);
             if (timeBetweenAttacks <= timeSinceLastAttack) {
@@ -55,6 +56,12 @@ namespace RPG.Combat {
 
         private bool InRange() {
             return Vector3.Distance(transform.position, target.transform.position) <= weaponRange;
+        }
+
+        public bool CanAttack(CombatTarget combatTarget) {
+            if (!combatTarget) return false;
+            var targetToTest = combatTarget.GetComponent<Health>();
+            return targetToTest && !targetToTest.IsDead;
         }
 
         public void Attack(CombatTarget combatTarget) {

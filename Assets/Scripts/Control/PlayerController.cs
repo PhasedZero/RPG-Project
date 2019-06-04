@@ -29,7 +29,7 @@ namespace RPG.Control {
             RaycastHit[] hits = Physics.RaycastAll(GetRay());
             foreach (var hit in hits) {
                 var target = hit.transform.GetComponent<CombatTarget>();
-                if (!target) continue;
+                if (!fighter.CanAttack(target)) continue;
 
                 if (Input.GetMouseButtonDown(0)) {
                     fighter.Attack(target);
