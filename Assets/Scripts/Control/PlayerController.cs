@@ -26,13 +26,16 @@ namespace RPG.Control {
         }
 
         private bool InteractWithCombat() {
-            RaycastHit[] hits = Physics.RaycastAll(GetRay());
+            var hits = Physics.RaycastAll(GetRay());
+            
             foreach (var hit in hits) {
                 var target = hit.transform.GetComponent<CombatTarget>();
-                if (!fighter.CanAttack(target)) continue;
+                
+                if (!target) continue;
+                if (!fighter.CanAttack(target.gameObject)) continue;
 
                 if (Input.GetMouseButtonDown(0)) {
-                    fighter.Attack(target);
+                    fighter.Attack(target.gameObject);
                 }
 
                 return true;
