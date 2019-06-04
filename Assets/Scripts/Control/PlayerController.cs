@@ -20,16 +20,9 @@ namespace RPG.Control {
                 mover.ToggleSprint();
             }
 
-            if (InteractWithCombat()) {
-                return;
-            }
+            if (InteractWithCombat()) return;
 
-            if (InteractWithMovement()) {
-                return;
-            }
-
-            print("Nothing to do");
-
+            if (InteractWithMovement()) return;
         }
 
         private bool InteractWithCombat() {
@@ -51,7 +44,7 @@ namespace RPG.Control {
         private bool InteractWithMovement() {
             var hasHit = Physics.Raycast(GetRay(), out var hit);
             if (!hasHit) return false;
-            
+
             if (Input.GetMouseButton(0)) {
                 mover.StartMoveAction(hit.point);
             }
