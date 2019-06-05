@@ -60,7 +60,7 @@ namespace RPG.Combat {
             if (animator.GetCurrentAnimatorStateInfo(layer).IsName("Base Layer.Attack")) {
                 animator.SetTrigger("stopAttack");
             }
-            
+            mover.Cancel();
             target = null;
         }
 

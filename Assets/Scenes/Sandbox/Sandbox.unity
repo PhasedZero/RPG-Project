@@ -1059,6 +1059,11 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5341321651791994400, guid: 820ed36779b31d345bf6cafada6f9a34,
+        type: 3}
+      propertyPath: guardDelay
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 820ed36779b31d345bf6cafada6f9a34, type: 3}
 --- !u!1001 &1811327692
