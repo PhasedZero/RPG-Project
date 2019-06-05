@@ -1,5 +1,5 @@
-﻿using System;
-using RPG.Combat;
+﻿using RPG.Combat;
+using RPG.Movement;
 using UnityEngine;
 
 namespace RPG.Core {
@@ -11,11 +11,16 @@ namespace RPG.Core {
 
         private bool isChasing = false;
         private Health health;
+        private Mover mover;
+        private Vector3 guardPosition;
 
         private void Start() {
+            mover = GetComponent<Mover>();
             health = GetComponent<Health>();
             fighter = GetComponent<Fighter>();
             player = GameObject.FindWithTag("Player");
+
+            guardPosition = transform.position;
         }
 
         private void Update() {
@@ -26,15 +31,18 @@ namespace RPG.Core {
 
             }
             else if (isChasing && !InChaseRange()) {
-                fighter.Cancel();
-                isChasing = false;
+                StopChasing();
             }
+        }
+        private void StopChasing() {
+            mover.StartMoveAction(guardPosition);
+            isChasing = false;
         }
 
         private bool InChaseRange() {
             return Vector3.Distance(transform.position, player.transform.position) <= chaseDistance;
         }
-        
+
         // Editor functions Called by Unity
         private void OnDrawGizmosSelected() {
             Gizmos.color = Color.blue;
