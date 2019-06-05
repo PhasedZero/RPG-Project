@@ -67,8 +67,11 @@ namespace RPG.Core {
         }
 
         private bool AtWaypoint() {
-            
-            
+            float distanceToWaypoint = Vector3.Distance(transform.position, GetCurrentWaypoint());
+            return distanceToWaypoint < waypointTolerance;
+        }
+        
+        private Vector3 GetCurrentWaypoint() {
             throw new NotImplementedException();
         }
 
@@ -82,7 +85,7 @@ namespace RPG.Core {
                 StartAttacking();
             }
             else if (patrol) {
-                StartPatrolling();
+//                StartPatrolling();
             }
         }
 
