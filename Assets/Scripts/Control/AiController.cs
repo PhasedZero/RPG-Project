@@ -1,5 +1,6 @@
 ﻿using System;
 using RPG.Combat;
+using RPG.Control;
 using RPG.Movement;
 using UnityEngine;
 
@@ -7,6 +8,8 @@ namespace RPG.Core {
     public class AiController : MonoBehaviour {
         [SerializeField] private float chaseDistance = 5f;
         [SerializeField] private float guardDelay = 3f;
+        [SerializeField] private PatrolPath patrol;
+        [SerializeField] private float waypointTolerance = 1f;
 
         private GameObject player;
         private Fighter fighter;
@@ -19,9 +22,10 @@ namespace RPG.Core {
         private enum State {
             Attacking,
             Suspicious,
-            Guarding
+            Guarding,
+            Patrolling
         }
-        
+
         private State state = State.Guarding;
 
         private void Start() {
@@ -45,9 +49,27 @@ namespace RPG.Core {
                 case State.Suspicious:
                     SuspicionBehavior();
                     break;
+                case State.Patrolling:
+                    PatrolBehavior();
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+        
+        private void StartPatrolling() {
+            state = State.Patrolling;
+            mover.StartMoveAction(guardPosition);
+        }
+
+        private void PatrolBehavior() {
+            
+        }
+
+        private bool AtWaypoint() {
+            
+            
+            throw new NotImplementedException();
         }
 
         private void StartGuarding() {
@@ -58,6 +80,9 @@ namespace RPG.Core {
         private void GuardBehavior() {
             if (CanAttack()) {
                 StartAttacking();
+            }
+            else if (patrol) {
+                StartPatrolling();
             }
         }
 

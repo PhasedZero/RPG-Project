@@ -2,24 +2,23 @@
 
 namespace RPG.Control {
     public class PatrolPath : MonoBehaviour {
-        private const float waypointGizmoRadius = .3f;
+        private const float WaypointGizmoRadius = .3f;
 
         private void OnDrawGizmos() {
             Gizmos.color = Color.yellow;
 
             for (var i = 0; i < transform.childCount; i++) {
-                int j = GetNextIndex(i);
 
-                Gizmos.DrawSphere(GetPosition(i), waypointGizmoRadius);
-                Gizmos.DrawLine(GetPosition(i), GetPosition(j));
+                Gizmos.DrawSphere(GetPosition(i), WaypointGizmoRadius);
+                Gizmos.DrawLine(GetPosition(i), GetNextPosition(i));
             }
         }
         
-        private int GetNextIndex(int index) {
-            return (index + 1) % transform.childCount;
+        public Vector3 GetNextPosition(int index) {
+            return GetPosition((index + 1) % transform.childCount);
         }
 
-        private Vector3 GetPosition(int i) {
+        public Vector3 GetPosition(int i) {
             return transform.GetChild(i).position;
         }
     }
