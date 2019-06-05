@@ -1,4 +1,5 @@
-﻿using RPG.Combat;
+﻿using System;
+using RPG.Combat;
 using UnityEngine;
 
 namespace RPG.Core {
@@ -32,6 +33,12 @@ namespace RPG.Core {
 
         private bool InChaseRange() {
             return Vector3.Distance(transform.position, player.transform.position) <= chaseDistance;
+        }
+        
+        // Editor functions Called by Unity
+        private void OnDrawGizmosSelected() {
+            Gizmos.color = Color.blue;
+            Gizmos.DrawWireSphere(transform.position, chaseDistance);
         }
     }
 }
