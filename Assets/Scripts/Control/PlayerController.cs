@@ -1,4 +1,5 @@
 ﻿using RPG.Combat;
+using RPG.Core;
 using RPG.Movement;
 using UnityEngine;
 
@@ -8,14 +9,17 @@ namespace RPG.Control {
         private Camera mainCamera;
         private Mover mover;
         private Fighter fighter;
+        private Health health;
 
         private void Start() {
+            health = GetComponent<Health>();
             fighter = GetComponent<Fighter>();
             mover = GetComponent<Mover>();
             mainCamera = Camera.main;
         }
 
         private void Update() {
+            if (health.IsDead) return;
             if (Input.GetKeyDown("left shift")) {
                 mover.ToggleSprint();
             }

@@ -13,14 +13,17 @@ namespace RPG.Movement {
         private bool isSprinting;
         private static readonly int ForwardSpeed = Animator.StringToHash("forwardSpeed");
         private ActionScheduler actionScheduler;
+        private Health health;
 
         private void Start() {
+            health = GetComponent<Health>();
             actionScheduler = GetComponent<ActionScheduler>();
             animator = GetComponent<Animator>();
             navMeshAgent = GetComponent<NavMeshAgent>();
         }
 
         private void Update() {
+            navMeshAgent.enabled = !health.IsDead;
             UpdateAnimator();
         }
 

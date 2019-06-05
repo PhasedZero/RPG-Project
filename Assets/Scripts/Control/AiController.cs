@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using RPG.Combat;
+using UnityEngine;
 
-namespace RPG.Combat {
+namespace RPG.Core {
     public class AiController : MonoBehaviour {
         [SerializeField] private float chaseDistance = 5f;
 
@@ -8,13 +9,16 @@ namespace RPG.Combat {
         private Fighter fighter;
 
         private bool isChasing = false;
+        private Health health;
 
         private void Start() {
+            health = GetComponent<Health>();
             fighter = GetComponent<Fighter>();
             player = GameObject.FindWithTag("Player");
         }
 
         private void Update() {
+            if (health.IsDead) return;
             if (!isChasing && InChaseRange() && fighter.CanAttack(player)) {
                 fighter.Attack(player);
                 isChasing = true;

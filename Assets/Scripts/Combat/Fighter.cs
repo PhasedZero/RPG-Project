@@ -20,12 +20,16 @@ namespace RPG.Combat {
             animator = GetComponent<Animator>();
             actionScheduler = GetComponent<ActionScheduler>();
             mover = GetComponent<Mover>();
+            
         }
 
         private void Update() {
             timeSinceLastAttack += Time.deltaTime;
-            if (!target || target.IsDead) return;
-
+            if (!target) return;
+            if (target.IsDead) {
+                Cancel();
+                return;
+            }
             if (!InRange()) {
                 mover.MoveTo(target.transform.position);
             }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace RPG.Combat {
+namespace RPG.Core {
     public class Health : MonoBehaviour {
         [SerializeField] private float healthPoints = 100f;
         private Animator animator;
@@ -23,7 +23,7 @@ namespace RPG.Combat {
             if (IsDead) return;
             animator.SetBool("death",true);
             IsDead = true;
-            GetComponent<CapsuleCollider>().enabled = false;
+            GetComponent<ActionScheduler>().CancelCurrentAction();
         }
 
     }
