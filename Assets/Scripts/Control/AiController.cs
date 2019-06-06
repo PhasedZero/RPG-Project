@@ -7,9 +7,10 @@ using UnityEngine;
 namespace RPG.Core {
     public class AiController : MonoBehaviour {
         [SerializeField] private float chaseDistance = 5f;
-        [SerializeField] private float guardDelay = 3f;
+        [SerializeField] private float suspicionTime = 3f;
         [SerializeField] private PatrolPath patrol;
         [SerializeField] private float waypointTolerance = 1f;
+        [SerializeField] private float waypointDwellTime = 2f;
 
         // Cached GOs
         private GameObject player;
@@ -22,12 +23,12 @@ namespace RPG.Core {
         private Vector3 guardPosition;
         private float timeSinceLastSawPlayer;
         private int currentWaypointIndex = 0;
+        private float timeSinceArrivedAtWaypoint;
 
         private enum State {
-            Attacking,
-            Suspicious,
             Guarding,
-            Patrolling
+            Attacking,
+            Suspicious
         }
 
         private void Start() {
@@ -51,29 +52,22 @@ namespace RPG.Core {
                 case State.Suspicious:
                     SuspicionBehavior();
                     break;
-                case State.Patrolling:
-                    PatrolBehavior();
-                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
         }
         
-        private void StartPatrolling() {
-            state = State.Patrolling;
-            mover.StartMoveAction(guardPosition);
-            mover.IsSprinting = false;
-        }
-
         private void PatrolBehavior() {
-            if (CanAttack()) {
-                StartAttacking();
-                return;
-            }
             if (AtWaypoint()) {
+                timeSinceArrivedAtWaypoint = 0;
                 CycleWaypoint();
             }
-            mover.StartMoveAction(GetCurrentWaypoint());
+
+            if (timeSinceArrivedAtWaypoint > waypointDwellTime) {
+                mover.StartMoveAction(GetCurrentWaypoint());
+            }
+
+            timeSinceArrivedAtWaypoint += Time.deltaTime;
         }
 
         private bool AtWaypoint() {
@@ -92,6 +86,7 @@ namespace RPG.Core {
         private void StartGuarding() {
             state = State.Guarding;
             mover.StartMoveAction(guardPosition);
+            mover.IsSprinting = false;
         }
 
         private void GuardBehavior() {
@@ -99,7 +94,7 @@ namespace RPG.Core {
                 StartAttacking();
             }
             else if (patrol) {
-                StartPatrolling();
+                PatrolBehavior();
             }
         }
 
@@ -133,7 +128,7 @@ namespace RPG.Core {
             if (CanAttack()) {
                 StartAttacking();
             }
-            else if (timeSinceLastSawPlayer < guardDelay) {
+            else if (timeSinceLastSawPlayer < suspicionTime) {
                 timeSinceLastSawPlayer += Time.deltaTime;
             }
             else {

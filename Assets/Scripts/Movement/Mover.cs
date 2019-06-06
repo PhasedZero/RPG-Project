@@ -19,7 +19,7 @@ namespace RPG.Movement {
             get => isSprinting;
             set {
                 isSprinting = value;
-                navMeshAgent.speed = IsSprinting ? runSpeed : walkSpeed;
+                UpdateMoveSpeed();
             } 
         }
 
@@ -28,6 +28,7 @@ namespace RPG.Movement {
             actionScheduler = GetComponent<ActionScheduler>();
             animator = GetComponent<Animator>();
             navMeshAgent = GetComponent<NavMeshAgent>();
+            UpdateMoveSpeed();
         }
 
         private void Update() {
@@ -58,8 +59,11 @@ namespace RPG.Movement {
 
         public void ToggleSprint() {
             IsSprinting = !IsSprinting;
-            navMeshAgent.speed = IsSprinting ? runSpeed : walkSpeed;
+            UpdateMoveSpeed();
         }
         
+        private void UpdateMoveSpeed() {
+            navMeshAgent.speed = IsSprinting ? runSpeed : walkSpeed;
+        }
     }
 }
