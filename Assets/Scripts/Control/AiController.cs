@@ -11,13 +11,17 @@ namespace RPG.Core {
         [SerializeField] private PatrolPath patrol;
         [SerializeField] private float waypointTolerance = 1f;
 
+        // Cached GOs
         private GameObject player;
         private Fighter fighter;
-
         private Health health;
         private Mover mover;
+
+        // State vars
+        private State state = State.Guarding;
         private Vector3 guardPosition;
         private float timeSinceLastSawPlayer;
+        private int currentWaypointIndex = 0;
 
         private enum State {
             Attacking,
@@ -25,8 +29,6 @@ namespace RPG.Core {
             Guarding,
             Patrolling
         }
-
-        private State state = State.Guarding;
 
         private void Start() {
             mover = GetComponent<Mover>();
@@ -60,19 +62,31 @@ namespace RPG.Core {
         private void StartPatrolling() {
             state = State.Patrolling;
             mover.StartMoveAction(guardPosition);
+            mover.IsSprinting = false;
         }
 
         private void PatrolBehavior() {
-            
+            if (CanAttack()) {
+                StartAttacking();
+                return;
+            }
+            if (AtWaypoint()) {
+                CycleWaypoint();
+            }
+            mover.StartMoveAction(GetCurrentWaypoint());
         }
 
         private bool AtWaypoint() {
-            float distanceToWaypoint = Vector3.Distance(transform.position, GetCurrentWaypoint());
+            var distanceToWaypoint = Vector3.Distance(transform.position, GetCurrentWaypoint());
             return distanceToWaypoint < waypointTolerance;
         }
         
+        private void CycleWaypoint() {
+            currentWaypointIndex = patrol.GetNextIndex(currentWaypointIndex);
+        }
+        
         private Vector3 GetCurrentWaypoint() {
-            throw new NotImplementedException();
+            return patrol.GetPosition(currentWaypointIndex);
         }
 
         private void StartGuarding() {
@@ -85,11 +99,12 @@ namespace RPG.Core {
                 StartAttacking();
             }
             else if (patrol) {
-//                StartPatrolling();
+                StartPatrolling();
             }
         }
 
         private void StartAttacking() {
+            mover.IsSprinting = true;
             state = State.Attacking;
             fighter.Attack(player);
         }

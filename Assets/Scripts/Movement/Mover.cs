@@ -10,10 +10,18 @@ namespace RPG.Movement {
         private NavMeshAgent navMeshAgent;
         private Animator animator;
 
-        private bool isSprinting;
         private static readonly int ForwardSpeed = Animator.StringToHash("forwardSpeed");
         private ActionScheduler actionScheduler;
         private Health health;
+        private bool isSprinting;
+
+        public bool IsSprinting {
+            get => isSprinting;
+            set {
+                isSprinting = value;
+                navMeshAgent.speed = IsSprinting ? runSpeed : walkSpeed;
+            } 
+        }
 
         private void Start() {
             health = GetComponent<Health>();
@@ -49,8 +57,8 @@ namespace RPG.Movement {
         }
 
         public void ToggleSprint() {
-            isSprinting = !isSprinting;
-            navMeshAgent.speed = isSprinting ? runSpeed : walkSpeed;
+            IsSprinting = !IsSprinting;
+            navMeshAgent.speed = IsSprinting ? runSpeed : walkSpeed;
         }
         
     }
