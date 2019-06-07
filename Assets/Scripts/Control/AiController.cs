@@ -11,6 +11,8 @@ namespace RPG.Core {
         [SerializeField] private PatrolPath patrol;
         [SerializeField] private float waypointTolerance = 1f;
         [SerializeField] private float waypointDwellTime = 2f;
+        [Range(0,1)]
+        [SerializeField] private float patrolSpeedFraction = 0.2f;
 
         // Cached GOs
         private GameObject player;
@@ -64,7 +66,7 @@ namespace RPG.Core {
             }
 
             if (timeSinceArrivedAtWaypoint > waypointDwellTime) {
-                mover.StartMoveAction(GetCurrentWaypoint());
+                mover.StartMoveAction(GetCurrentWaypoint(), patrolSpeedFraction);
             }
 
             timeSinceArrivedAtWaypoint += Time.deltaTime;
@@ -85,8 +87,7 @@ namespace RPG.Core {
 
         private void StartGuarding() {
             state = State.Guarding;
-            mover.StartMoveAction(guardPosition);
-            mover.IsSprinting = false;
+            mover.StartMoveAction(guardPosition, patrolSpeedFraction);
         }
 
         private void GuardBehavior() {
@@ -99,7 +100,6 @@ namespace RPG.Core {
         }
 
         private void StartAttacking() {
-            mover.IsSprinting = true;
             state = State.Attacking;
             fighter.Attack(player);
         }

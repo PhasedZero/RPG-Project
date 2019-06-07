@@ -4,8 +4,7 @@ using UnityEngine.AI;
 
 namespace RPG.Movement {
     public class Mover : MonoBehaviour, IAction {
-        [SerializeField] private float runSpeed = 5.66f;
-        [SerializeField] private float walkSpeed = 3f;
+        [SerializeField] private float maxSpeed = 5.66f;
 
         private NavMeshAgent navMeshAgent;
         private Animator animator;
@@ -13,22 +12,12 @@ namespace RPG.Movement {
         private static readonly int ForwardSpeed = Animator.StringToHash("forwardSpeed");
         private ActionScheduler actionScheduler;
         private Health health;
-        private bool isSprinting;
-
-        public bool IsSprinting {
-            get => isSprinting;
-            set {
-                isSprinting = value;
-                UpdateMoveSpeed();
-            } 
-        }
 
         private void Start() {
             health = GetComponent<Health>();
             actionScheduler = GetComponent<ActionScheduler>();
             animator = GetComponent<Animator>();
             navMeshAgent = GetComponent<NavMeshAgent>();
-            UpdateMoveSpeed();
         }
 
         private void Update() {
@@ -36,13 +25,14 @@ namespace RPG.Movement {
             UpdateAnimator();
         }
 
-        public void StartMoveAction(Vector3 destination) {
+        public void StartMoveAction(Vector3 destination, float speedFraction) {
             actionScheduler.StartAction(this);
-            MoveTo(destination);
+            MoveTo(destination, speedFraction);
         }
 
-        public void MoveTo(Vector3 destination) {
+        public void MoveTo(Vector3 destination, float speedFraction) {
             navMeshAgent.SetDestination(destination);
+            navMeshAgent.speed = maxSpeed * Mathf.Clamp01(speedFraction);
             navMeshAgent.isStopped = false;
         }
         
@@ -57,13 +47,9 @@ namespace RPG.Movement {
             animator.SetFloat(ForwardSpeed, speed);
         }
 
-        public void ToggleSprint() {
-            IsSprinting = !IsSprinting;
-            UpdateMoveSpeed();
+        public void UpdateMovementSpeed(float speedFraction) {
+            navMeshAgent.speed = maxSpeed * Mathf.Clamp01(speedFraction);
         }
         
-        private void UpdateMoveSpeed() {
-            navMeshAgent.speed = IsSprinting ? runSpeed : walkSpeed;
-        }
     }
 }

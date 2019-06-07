@@ -5,6 +5,9 @@ using UnityEngine;
 
 namespace RPG.Control {
     public class PlayerController : MonoBehaviour {
+        [Range(0,1)]
+        [SerializeField] private float walkSpeedFraction = 0.4f;
+        private float moveSpeedFraction = 1f;
 
         private Camera mainCamera;
         private Mover mover;
@@ -21,7 +24,7 @@ namespace RPG.Control {
         private void Update() {
             if (health.IsDead) return;
             if (Input.GetKeyDown("left shift")) {
-                mover.ToggleSprint();
+                ToggleSprint();
             }
 
             if (InteractWithCombat()) return;
@@ -53,7 +56,7 @@ namespace RPG.Control {
             if (!hasHit) return false;
 
             if (Input.GetMouseButton(0)) {
-                mover.StartMoveAction(hit.point);
+                mover.StartMoveAction(hit.point, moveSpeedFraction);
             }
 
             return true;
@@ -62,6 +65,11 @@ namespace RPG.Control {
 
         private Ray GetRay() {
             return mainCamera.ScreenPointToRay(Input.mousePosition);
+        }
+        
+        private void ToggleSprint() {
+            moveSpeedFraction = moveSpeedFraction < 1 ? 1 : walkSpeedFraction;
+            mover.UpdateMovementSpeed(moveSpeedFraction);
         }
     }
 }
