@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f12d00e3da36b3e44a80d10f81669791, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  walkSpeedFraction: 0.4
 --- !u!1001 &3628185300081361252
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -148,6 +149,16 @@ PrefabInstance:
     - target: {fileID: 726000894, guid: 5d80de4f9eaa78449bf0c65779bfb8e3, type: 3}
       propertyPath: m_Height
       value: 1.89
+      objectReference: {fileID: 0}
+    - target: {fileID: 3920627787880405921, guid: 5d80de4f9eaa78449bf0c65779bfb8e3,
+        type: 3}
+      propertyPath: weaponRange
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3974395569764104538, guid: 5d80de4f9eaa78449bf0c65779bfb8e3,
+        type: 3}
+      propertyPath: m_Radius
+      value: 0.24
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5d80de4f9eaa78449bf0c65779bfb8e3, type: 3}
