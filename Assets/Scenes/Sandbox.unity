@@ -38,13 +38,13 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.35313705, g: 0.5737582, b: 0.86865103, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 11
-  m_GIWorkflowMode: 1
+  m_GIWorkflowMode: 0
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -622,15 +622,15 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4055479293656282615, guid: 132f6b2f171471e40967c7246a74a456,
-        type: 3}
-      propertyPath: sceneToLoad
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2635684758084524666, guid: 132f6b2f171471e40967c7246a74a456,
         type: 3}
       propertyPath: m_Name
       value: Portal
+      objectReference: {fileID: 0}
+    - target: {fileID: 4055479293656282615, guid: 132f6b2f171471e40967c7246a74a456,
+        type: 3}
+      propertyPath: sceneToLoad
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1178031610183213667, guid: 132f6b2f171471e40967c7246a74a456,
         type: 3}
@@ -701,6 +701,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 0.96863997
+      objectReference: {fileID: 0}
+    - target: {fileID: 5559294693500060203, guid: 132f6b2f171471e40967c7246a74a456,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -3.42
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 132f6b2f171471e40967c7246a74a456, type: 3}
@@ -1480,7 +1485,7 @@ Light:
   serializedVersion: 9
   m_Type: 1
   m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
-  m_Intensity: 1.73
+  m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
