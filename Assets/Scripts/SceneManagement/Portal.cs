@@ -4,9 +4,13 @@ using UnityEngine.SceneManagement;
 
 namespace RPG.SceneManagement {
     public class Portal : MonoBehaviour {
+        public enum PortalId {
+            A, B, C, D, E
+        }
 
         [SerializeField] private int sceneToLoad = -1;
         [SerializeField] private Transform spawnPoint;
+        [SerializeField] public PortalId portalId;
 
         private void OnTriggerEnter(Collider other) {
             if (other.CompareTag("Player")) {
@@ -31,9 +35,10 @@ namespace RPG.SceneManagement {
         private Portal GetOtherPortal() {
             foreach (Portal portal in FindObjectsOfType<Portal>()) {
                 if (portal == this) continue;
-                return portal;
+                if (portal.portalId == portalId) {
+                    return portal;
+                }
             }
-
             return null;
         }
     }
