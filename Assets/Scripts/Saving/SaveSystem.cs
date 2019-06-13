@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace RPG.Saving {
     public class SaveSystem : MonoBehaviour {
@@ -18,13 +20,11 @@ namespace RPG.Saving {
             using (var stream = File.Open(path, FileMode.Create)) {
                 
                 var formatter = new BinaryFormatter();
-                var position = new SerializableVector3(playerTransform.position);
-                formatter.Serialize(stream, position);
+                formatter.Serialize(stream, CaptureState());
                 
             }
         }
         
-
         public void Load(string saveFile) {
             var path = GetPathFromSaveFile(saveFile);
             print("Loading from " + path);
@@ -32,26 +32,23 @@ namespace RPG.Saving {
             using (var stream = File.Open(path, FileMode.Open)) {
                 var formatter = new BinaryFormatter();
 
-                var position = (SerializableVector3) formatter.Deserialize(stream);
-                playerTransform.position = position.ToVector3();
+                RestoreState(formatter.Deserialize(stream));
             }
         }
 
-        private byte[] SerializeVector(Vector3 vector) {
-            var vectorBytes = new byte[3*4];
-            BitConverter.GetBytes(vector.x).CopyTo(vectorBytes,0);
-            BitConverter.GetBytes(vector.y).CopyTo(vectorBytes,4);
-            BitConverter.GetBytes(vector.z).CopyTo(vectorBytes,8);
-            return vectorBytes;
+        private object CaptureState() {
+            var state = new Dictionary<string, object>();
+            foreach (var savable in FindObjectsOfType<SavableEntity>()) {
+                state[savable.GetUniqueId()] = savable.CaptureState();
+            }
+            return state;
         }
-
-        private Vector3 DeSerializeVector(byte[] buffer) {
-            var vector = new Vector3 {
-                x = BitConverter.ToSingle(buffer, 0),
-                y = BitConverter.ToSingle(buffer, 4),
-                z = BitConverter.ToSingle(buffer, 8)
-            };
-            return vector;
+        
+        private void RestoreState(object state) {
+            var dictionary = (Dictionary<string, object>) state;
+            foreach (var savable in FindObjectsOfType<SavableEntity>()) {
+                savable.RestoreState(dictionary[savable.GetUniqueId()]);
+            }
         }
 
         private string GetPathFromSaveFile(string saveFile) {
