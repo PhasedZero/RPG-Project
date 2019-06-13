@@ -1,6 +1,6 @@
 using System;
 using System.IO;
-using System.Text;
+using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 
 namespace RPG.Saving {
@@ -16,9 +16,11 @@ namespace RPG.Saving {
             print("Saving to " + path);
             
             using (var stream = File.Open(path, FileMode.Create)) {
-                byte[] buffer = SerializeVector(playerTransform.position);
                 
-                stream.Write(buffer, 0, buffer.Length);
+                var formatter = new BinaryFormatter();
+                var position = new SerializableVector3(playerTransform.position);
+                formatter.Serialize(stream, position);
+                
             }
         }
         
@@ -28,10 +30,10 @@ namespace RPG.Saving {
             print("Loading from " + path);
             
             using (var stream = File.Open(path, FileMode.Open)) {
-                var buffer = new byte[stream.Length];
-                stream.Read(buffer,0,buffer.Length);
-                playerTransform.position = DeSerializeVector(buffer);
-                
+                var formatter = new BinaryFormatter();
+
+                var position = (SerializableVector3) formatter.Deserialize(stream);
+                playerTransform.position = position.ToVector3();
             }
         }
 
