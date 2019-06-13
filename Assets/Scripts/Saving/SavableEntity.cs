@@ -22,14 +22,23 @@ namespace RPG.Saving {
         
         private void Update() {
             if (Application.isPlaying) return;
-            if(!gameObject.scene.IsValid()) return;
-            
+            SetGuid();
+        }
+
+        private void OnValidate() {
+            throw new NotImplementedException();
+        }
+
+        private void SetGuid() {
+
+            if (!gameObject.scene.IsValid()) return;
+
             var sObject = new SerializedObject(this);
             var property = sObject.FindProperty("uniqueId");
 
             if (string.IsNullOrEmpty(property.stringValue)) {
                 property.stringValue = Guid.NewGuid().ToString();
-                sObject.ApplyModifiedProperties();
+                sObject.ApplyModifiedPropertiesWithoutUndo();
             }
         }
     }
