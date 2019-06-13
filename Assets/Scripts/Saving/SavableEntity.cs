@@ -1,10 +1,11 @@
 using System;
+using UnityEditor;
 using UnityEngine;
 
 namespace RPG.Saving {
     [ExecuteAlways]
     public class SavableEntity : MonoBehaviour {
-        [SerializeField] private string uniqueId = Guid.NewGuid().ToString();
+        [SerializeField] private string uniqueId;
 
         public string GetUniqueId() {
             return uniqueId;
@@ -21,8 +22,15 @@ namespace RPG.Saving {
         
         private void Update() {
             if (Application.isPlaying) return;
+            if(!gameObject.scene.IsValid()) return;
             
-            print("Editing....");
+            var sObject = new SerializedObject(this);
+            var property = sObject.FindProperty("uniqueId");
+
+            if (string.IsNullOrEmpty(property.stringValue)) {
+                property.stringValue = Guid.NewGuid().ToString();
+                sObject.ApplyModifiedProperties();
+            }
         }
     }
 }
