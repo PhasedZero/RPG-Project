@@ -9,13 +9,24 @@ namespace RPG.Saving {
         private void Start() {
             saveSystem = GetComponent<SaveSystem>();
         }
+        
         private void Update() {
             if (Input.GetKeyDown(KeyCode.S)) {
-                SaveSystem.Save(DefaultSaveFile);
+                Save();
             }
             if (Input.GetKeyDown(KeyCode.L)) {
-                SaveSystem.Load(DefaultSaveFile);
+                Load();
             }
+        }
+        
+        public static void Load() {
+
+            SaveSystem.Load(DefaultSaveFile);
+        }
+        
+        public static void Save() {
+
+            SaveSystem.Save(DefaultSaveFile);
         }
     }
 }

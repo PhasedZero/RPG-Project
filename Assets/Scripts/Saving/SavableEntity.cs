@@ -23,8 +23,10 @@ namespace RPG.Saving {
             var serializableVector3 = (SerializableVector3) state;
             
             GetComponent<ActionScheduler>().CancelCurrentAction();
-            GetComponent<NavMeshAgent>().enabled = false;
+            var navMeshAgent = GetComponent<NavMeshAgent>();
+            navMeshAgent.enabled = false;
             transform.position = serializableVector3.ToVector3();
+            navMeshAgent.enabled = true;
         }
 
 #if UNITY_EDITOR

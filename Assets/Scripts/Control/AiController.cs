@@ -33,13 +33,15 @@ namespace RPG.Core {
             Suspicious
         }
 
+        private void OnValidate() {
+            guardPosition = transform.position;
+        }
+
         private void Start() {
             mover = GetComponent<Mover>();
             health = GetComponent<Health>();
             fighter = GetComponent<Fighter>();
             player = GameObject.FindWithTag("Player");
-
-            guardPosition = transform.position;
         }
 
         private void Update() {
@@ -97,6 +99,13 @@ namespace RPG.Core {
             else if (patrol) {
                 PatrolBehavior();
             }
+            else if(!IsAtPost()){
+                mover.StartMoveAction(guardPosition, patrolSpeedFraction);
+            }
+        }
+        
+        private bool IsAtPost() {
+            return transform.position == guardPosition;
         }
 
         private void StartAttacking() {
