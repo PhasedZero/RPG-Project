@@ -1,45 +1,54 @@
 using System;
+using System.Linq;
+using RPG.Core;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace RPG.Saving {
     [ExecuteAlways]
     public class SavableEntity : MonoBehaviour {
+        [Header("Don't touch. This is auto-generated.")]
         [SerializeField] private string uniqueId;
-
+        
         public string GetUniqueId() {
             return uniqueId;
         }
 
         public object CaptureState() {
-            print("Capturing state for " + GetUniqueId());
-            return null;
+            return new SerializableVector3(transform.position);
         }
 
         public void RestoreState(object state) {
-            print("Restoring state for " + GetUniqueId());
+            var serializableVector3 = (SerializableVector3) state;
+            GetComponent<ActionScheduler>().CancelCurrentAction();
+            GetComponent<NavMeshAgent>().enabled = false;
+            transform.position = serializableVector3.ToVector3();
         }
-        
-        private void Update() {
-            if (Application.isPlaying) return;
+
+#if UNITY_EDITOR
+        private void OnValidate() {
+            if (!gameObject.scene.IsValid()) return;
+            if (!string.IsNullOrEmpty(uniqueId) && IsUnique()) return;
+
             SetGuid();
         }
 
-        private void OnValidate() {
-            throw new NotImplementedException();
-        }
-
         private void SetGuid() {
-
-            if (!gameObject.scene.IsValid()) return;
-
             var sObject = new SerializedObject(this);
             var property = sObject.FindProperty("uniqueId");
 
-            if (string.IsNullOrEmpty(property.stringValue)) {
-                property.stringValue = Guid.NewGuid().ToString();
-                sObject.ApplyModifiedPropertiesWithoutUndo();
-            }
+            property.stringValue = Guid.NewGuid().ToString();
+            sObject.ApplyModifiedPropertiesWithoutUndo();
+        }
+
+        private bool IsUnique() {
+            var savableEntities = FindObjectsOfType<SavableEntity>();
+
+            return savableEntities
+                .Where(entity => entity != this)
+                .All(entity => entity.GetUniqueId() != uniqueId);
         }
     }
+#endif
 }

@@ -7,11 +7,6 @@ using Object = UnityEngine.Object;
 
 namespace RPG.Saving {
     public class SaveSystem : MonoBehaviour {
-        private Transform playerTransform;
-
-        private void Start() {
-            playerTransform = GameObject.FindWithTag("Player").transform;
-        }
         
         public void Save(string saveFile) {
             var path = GetPathFromSaveFile(saveFile);
@@ -21,7 +16,6 @@ namespace RPG.Saving {
                 
                 var formatter = new BinaryFormatter();
                 formatter.Serialize(stream, CaptureState());
-                
             }
         }
         
