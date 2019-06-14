@@ -11,10 +11,10 @@ namespace RPG.Saving {
         }
         private void Update() {
             if (Input.GetKeyDown(KeyCode.S)) {
-                saveSystem.Save(DefaultSaveFile);
+                SaveSystem.Save(DefaultSaveFile);
             }
             if (Input.GetKeyDown(KeyCode.L)) {
-                saveSystem.Load(DefaultSaveFile);
+                SaveSystem.Load(DefaultSaveFile);
             }
         }
     }

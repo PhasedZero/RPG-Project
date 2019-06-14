@@ -8,11 +8,11 @@ using UnityEngine.AI;
 namespace RPG.Saving {
     [ExecuteAlways]
     public class SavableEntity : MonoBehaviour {
-        [Header("Don't touch. This is auto-generated.")]
-        [SerializeField] private string uniqueId;
-        
+        [Header("Don't touch. This is auto-generated.")] [SerializeField]
+        private string uniqueIdent;
+
         public string GetUniqueId() {
-            return uniqueId;
+            return uniqueIdent;
         }
 
         public object CaptureState() {
@@ -21,6 +21,7 @@ namespace RPG.Saving {
 
         public void RestoreState(object state) {
             var serializableVector3 = (SerializableVector3) state;
+            
             GetComponent<ActionScheduler>().CancelCurrentAction();
             GetComponent<NavMeshAgent>().enabled = false;
             transform.position = serializableVector3.ToVector3();
@@ -28,15 +29,15 @@ namespace RPG.Saving {
 
 #if UNITY_EDITOR
         private void OnValidate() {
-            if (!gameObject.scene.IsValid()) return;
-            if (!string.IsNullOrEmpty(uniqueId) && IsUnique()) return;
+            if (string.IsNullOrEmpty(gameObject.scene.path)) return;
+            if (!string.IsNullOrEmpty(uniqueIdent) && IsUnique()) return;
 
             SetGuid();
         }
 
         private void SetGuid() {
             var sObject = new SerializedObject(this);
-            var property = sObject.FindProperty("uniqueId");
+            var property = sObject.FindProperty("uniqueIdent");
 
             property.stringValue = Guid.NewGuid().ToString();
             sObject.ApplyModifiedPropertiesWithoutUndo();
@@ -47,8 +48,9 @@ namespace RPG.Saving {
 
             return savableEntities
                 .Where(entity => entity != this)
-                .All(entity => entity.GetUniqueId() != uniqueId);
+                .All(entity => entity.GetUniqueId() != uniqueIdent);
         }
-    }
 #endif
+        
+    }
 }
