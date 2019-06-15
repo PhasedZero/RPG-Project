@@ -2,7 +2,7 @@
 
 namespace RPG.Control {
     public class PatrolPath : MonoBehaviour {
-        private const float WaypointGizmoRadius = .3f;
+        private const float waypointGizmoRadius = .3f;
 
         private void OnDrawGizmos() {
             Gizmos.color = Color.yellow;
@@ -10,7 +10,7 @@ namespace RPG.Control {
             for (var i = 0; i < transform.childCount; i++) {
                 var j = GetNextIndex(i);
                 
-                Gizmos.DrawSphere(GetPosition(i), WaypointGizmoRadius);
+                Gizmos.DrawSphere(GetPosition(i), waypointGizmoRadius);
                 Gizmos.DrawLine(GetPosition(i), GetPosition(j));
             }
         }

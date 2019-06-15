@@ -14,7 +14,7 @@ namespace RPG.Movement {
         private ActionScheduler actionScheduler;
         private Health health;
 
-        private void Start() {
+        private void Awake() {
             health = GetComponent<Health>();
             actionScheduler = GetComponent<ActionScheduler>();
             animator = GetComponent<Animator>();
@@ -58,10 +58,10 @@ namespace RPG.Movement {
 
         public void RestoreState(object state) {
             var serializableVector3 = (SerializableVector3) state;
-            GetComponent<ActionScheduler>().CancelCurrentAction();
-            GetComponent<NavMeshAgent>().enabled = false;
+            actionScheduler.CancelCurrentAction();
+            navMeshAgent.enabled = false;
             transform.position = serializableVector3.ToVector3();
-            GetComponent<NavMeshAgent>().enabled = true;
+            navMeshAgent.enabled = true;
         }
     }
 }

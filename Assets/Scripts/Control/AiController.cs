@@ -37,7 +37,7 @@ namespace RPG.Core {
             guardPosition = transform.position;
         }
 
-        private void Start() {
+        private void Awake() {
             mover = GetComponent<Mover>();
             health = GetComponent<Health>();
             fighter = GetComponent<Fighter>();

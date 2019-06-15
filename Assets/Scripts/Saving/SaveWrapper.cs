@@ -2,31 +2,28 @@ using UnityEngine;
 
 namespace RPG.Saving {
     public class SaveWrapper : MonoBehaviour {
-        private SaveSystem saveSystem;
+        private const string defaultSaveFile = "save";
 
-        private const string DefaultSaveFile = "save";
-
-        private void Start() {
-            saveSystem = GetComponent<SaveSystem>();
+        private void OnEnable() {
+            StartCoroutine(SaveSystem.LoadLastScene(defaultSaveFile));
         }
-        
+
         private void Update() {
             if (Input.GetKeyDown(KeyCode.S)) {
                 Save();
             }
+
             if (Input.GetKeyDown(KeyCode.L)) {
                 Load();
             }
         }
-        
+
         public static void Load() {
-
-            SaveSystem.Load(DefaultSaveFile);
+            SaveSystem.Load(defaultSaveFile);
         }
-        
-        public static void Save() {
 
-            SaveSystem.Save(DefaultSaveFile);
+        public static void Save() {
+            SaveSystem.Save(defaultSaveFile);
         }
     }
 }
