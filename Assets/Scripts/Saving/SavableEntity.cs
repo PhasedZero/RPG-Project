@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using RPG.Core;
 using UnityEditor;
@@ -9,50 +10,54 @@ namespace RPG.Saving {
     [ExecuteAlways]
     public class SavableEntity : MonoBehaviour {
         [Header("Don't touch. This is auto-generated.")] [SerializeField]
-        private string uniqueIdent;
+        private string uniqueId;
 
         public string GetUniqueId() {
-            return uniqueIdent;
+            return uniqueId;
         }
 
-        public object CaptureState() {
-            return new SerializableVector3(transform.position);
+        public Dictionary<string, object> CaptureState() {
+            return GetComponents<ISavable>()
+                .ToDictionary(
+                    savable => savable.GetType().ToString(),
+                    savable => savable.CaptureState()
+                );
         }
 
         public void RestoreState(object state) {
-            var serializableVector3 = (SerializableVector3) state;
+            var states = (Dictionary<string, object>) state;
             
-            GetComponent<ActionScheduler>().CancelCurrentAction();
-            var navMeshAgent = GetComponent<NavMeshAgent>();
-            navMeshAgent.enabled = false;
-            transform.position = serializableVector3.ToVector3();
-            navMeshAgent.enabled = true;
+            foreach (var savable in GetComponents<ISavable>()) {
+                var type = savable.GetType().ToString();
+                
+                if (states.ContainsKey(type)) {
+                    savable.RestoreState(states[type]);
+                }
+            }
         }
 
 #if UNITY_EDITOR
         private void OnValidate() {
+            print("validating " + name);
             if (string.IsNullOrEmpty(gameObject.scene.path)) return;
-            if (!string.IsNullOrEmpty(uniqueIdent) && IsUnique()) return;
+            if (!string.IsNullOrEmpty(uniqueId) && IsUnique()) return;
 
             SetGuid();
         }
 
         private void SetGuid() {
             var sObject = new SerializedObject(this);
-            var property = sObject.FindProperty("uniqueIdent");
+            var property = sObject.FindProperty("uniqueId");
 
             property.stringValue = Guid.NewGuid().ToString();
             sObject.ApplyModifiedPropertiesWithoutUndo();
         }
 
         private bool IsUnique() {
-            var savableEntities = FindObjectsOfType<SavableEntity>();
-
-            return savableEntities
+            return FindObjectsOfType<SavableEntity>()
                 .Where(entity => entity != this)
-                .All(entity => entity.GetUniqueId() != uniqueIdent);
+                .All(entity => entity.GetUniqueId() != uniqueId);
         }
 #endif
-        
     }
 }

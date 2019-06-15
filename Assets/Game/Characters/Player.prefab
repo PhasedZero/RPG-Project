@@ -155,6 +155,11 @@ PrefabInstance:
       propertyPath: weaponRange
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6520933720521285778, guid: 5d80de4f9eaa78449bf0c65779bfb8e3,
+        type: 3}
+      propertyPath: uniqueId
+      value: player
+      objectReference: {fileID: 0}
     - target: {fileID: 3974395569764104538, guid: 5d80de4f9eaa78449bf0c65779bfb8e3,
         type: 3}
       propertyPath: m_Radius

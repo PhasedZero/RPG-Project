@@ -1,9 +1,10 @@
 ﻿using RPG.Core;
+using RPG.Saving;
 using UnityEngine;
 using UnityEngine.AI;
 
 namespace RPG.Movement {
-    public class Mover : MonoBehaviour, IAction {
+    public class Mover : MonoBehaviour, IAction, ISavable {
         [SerializeField] private float maxSpeed = 5.66f;
 
         private NavMeshAgent navMeshAgent;
@@ -50,6 +51,17 @@ namespace RPG.Movement {
         public void UpdateMovementSpeed(float speedFraction) {
             navMeshAgent.speed = maxSpeed * Mathf.Clamp01(speedFraction);
         }
-        
+
+        public object CaptureState() {
+            return new SerializableVector3(transform.position);
+        }
+
+        public void RestoreState(object state) {
+            var serializableVector3 = (SerializableVector3) state;
+            GetComponent<ActionScheduler>().CancelCurrentAction();
+            GetComponent<NavMeshAgent>().enabled = false;
+            transform.position = serializableVector3.ToVector3();
+            GetComponent<NavMeshAgent>().enabled = true;
+        }
     }
 }

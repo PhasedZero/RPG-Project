@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Linq;
 using RPG.Saving;
 using UnityEngine;
 using UnityEngine.AI;
@@ -7,13 +8,17 @@ using UnityEngine.SceneManagement;
 namespace RPG.SceneManagement {
     public class Portal : MonoBehaviour {
         public enum PortalId {
-            A, B, C, D, E
+            A,
+            B,
+            C,
+            D,
+            E
         }
 
         [SerializeField] private int sceneToLoad = -1;
         [SerializeField] private Transform spawnPoint;
         [SerializeField] public PortalId portalId;
-        
+
         [SerializeField] private float fadeOutTime = 2f;
         [SerializeField] private float fadeInTime = 1f;
         [SerializeField] private float fadeWaitTime = 1f;
@@ -32,20 +37,19 @@ namespace RPG.SceneManagement {
 
             var fader = FindObjectOfType<Fader>();
             yield return fader.FadeOut(fadeOutTime);
-            
-            SaveWrapper.Save();
 
             DontDestroyOnLoad(gameObject);
-            yield return SceneManager.LoadSceneAsync(sceneToLoad);
-            
-            SaveWrapper.Load();
 
-            Portal otherPortal = GetOtherPortal();
-            UpdatePlayer(otherPortal);
+            SaveWrapper.Save();
+            yield return SceneManager.LoadSceneAsync(sceneToLoad);
+            SaveWrapper.Load();
             
+            var otherPortal = GetOtherPortal();
+            UpdatePlayer(otherPortal);
+
             yield return new WaitForSeconds(fadeWaitTime);
             yield return fader.FadeIn(fadeInTime);
-            
+
             Destroy(gameObject);
         }
 
@@ -59,13 +63,9 @@ namespace RPG.SceneManagement {
         }
 
         private Portal GetOtherPortal() {
-            foreach (Portal portal in FindObjectsOfType<Portal>()) {
-                if (portal == this) continue;
-                if (portal.portalId == portalId) {
-                    return portal;
-                }
-            }
-            return null;
+            return FindObjectsOfType<Portal>()
+                .Where(portal => portal != this)
+                .FirstOrDefault(portal => portal.portalId == portalId);
         }
     }
 }
