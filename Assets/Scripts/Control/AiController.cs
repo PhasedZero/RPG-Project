@@ -22,7 +22,7 @@ namespace RPG.Core {
 
         // State vars
         private State state = State.Guarding;
-        private Vector3 guardPosition;
+        public Vector3 guardPosition;
         private float timeSinceLastSawPlayer;
         private int currentWaypointIndex = 0;
         private float timeSinceArrivedAtWaypoint;
