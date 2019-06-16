@@ -36,7 +36,6 @@ namespace RPG.Saving {
 
 #if UNITY_EDITOR
         private void OnValidate() {
-            print("validating " + name);
             if (string.IsNullOrEmpty(gameObject.scene.path)) return;
             if (!string.IsNullOrEmpty(uniqueId) && IsUnique()) return;
 

@@ -11,10 +11,10 @@ namespace RPG.SceneManagement {
         private void OnEnable() {
             var fader = FindObjectOfType<Fader>();
             fader.FadeOutImmediate();
-            StartCoroutine(SaveSystem.LoadLastScene(defaultSaveFile));
         }
 
         private void Start() {
+            StartCoroutine(SaveSystem.LoadLastScene(defaultSaveFile));
             var fader = FindObjectOfType<Fader>();
             StartCoroutine(fader.FadeIn(fadeInTime));
         }

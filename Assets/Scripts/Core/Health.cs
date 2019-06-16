@@ -1,3 +1,4 @@
+using System;
 using RPG.Saving;
 using UnityEngine;
 
@@ -5,7 +6,13 @@ namespace RPG.Core {
     public class Health : MonoBehaviour, ISavable {
         [SerializeField] private float healthPoints = 100f;
 
+        private Animator animator;
+
         public bool IsDead { get; private set; } = false;
+
+        private void Awake() {
+            animator = GetComponent<Animator>();
+        }
 
         public void TakeDamage(float damage) {
             healthPoints = Mathf.Max(healthPoints - damage, 0f);
@@ -17,7 +24,7 @@ namespace RPG.Core {
 
         private void DeathSequence() {
             if (IsDead) return;
-            GetComponent<Animator>().SetBool("death",true);
+            animator.SetBool("death",true);
             IsDead = true;
             GetComponent<ActionScheduler>().CancelCurrentAction();
         }
@@ -32,7 +39,7 @@ namespace RPG.Core {
                 DeathSequence();
             }
             else {
-                GetComponent<Animator>().SetBool("death",false);
+                animator.SetBool("death",false);
                 IsDead = false;
             }
         }

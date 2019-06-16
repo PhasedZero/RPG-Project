@@ -25,7 +25,7 @@ namespace RPG.Combat {
         }
 
         private void Start() {
-            SpawnWeapon();
+//            SpawnWeapon();
         }
 
         private void Update() {
