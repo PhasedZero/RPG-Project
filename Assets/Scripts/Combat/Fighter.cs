@@ -8,9 +8,8 @@ namespace RPG.Combat {
         [SerializeField] private float weaponRange = 2f;
         [SerializeField] private float timeBetweenAttacks = 1f;
         [SerializeField] private float weaponDamage = 5f;
-        [SerializeField] private GameObject weaponPrefab = null;
         [SerializeField] private Transform handTransform = null;
-        [SerializeField] private AnimatorOverrideController weaponOverride = null;
+        [SerializeField] private Weapon weapon = null;
 
         private Health target;
         private Mover mover;
@@ -29,6 +28,11 @@ namespace RPG.Combat {
             SpawnWeapon();
         }
 
+        private void SpawnWeapon() {
+            if (weapon == null) return;
+            weapon.Spawn(handTransform, animator);
+        }
+
         private void Update() {
             timeSinceLastAttack += Time.deltaTime;
             if (!target) return;
@@ -36,6 +40,7 @@ namespace RPG.Combat {
                 Cancel();
                 return;
             }
+
             if (!InRange()) {
                 mover.MoveTo(target.transform.position, 1);
             }
@@ -43,11 +48,6 @@ namespace RPG.Combat {
                 mover.Cancel();
                 AttackBehavior();
             }
-        }
-
-        private void SpawnWeapon() {
-            Instantiate(weaponPrefab, handTransform);
-            animator.runtimeAnimatorController = weaponOverride;
         }
 
         private void AttackBehavior() {
@@ -67,10 +67,12 @@ namespace RPG.Combat {
 
         public void Cancel() {
             var layer = animator.GetLayerIndex("Base Layer");
-            
-            if (animator.GetCurrentAnimatorStateInfo(layer).IsName("Base Layer.Attack") && !animator.IsInTransition(layer)) {
+
+            if (animator.GetCurrentAnimatorStateInfo(layer).IsName("Base Layer.Attack") &&
+                !animator.IsInTransition(layer)) {
                 animator.SetTrigger("stopAttack");
             }
+
             mover.Cancel();
             target = null;
         }
@@ -89,6 +91,5 @@ namespace RPG.Combat {
             actionScheduler.StartAction(this);
             target = combatTarget.GetComponent<Health>();
         }
-
     }
 }

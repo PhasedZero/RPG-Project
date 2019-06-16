@@ -2402,6 +2402,21 @@ PrefabInstance:
       propertyPath: patrol
       value: 
       objectReference: {fileID: 475942834}
+    - target: {fileID: 5341321651791994400, guid: 820ed36779b31d345bf6cafada6f9a34,
+        type: 3}
+      propertyPath: guardPosition.x
+      value: -27.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5341321651791994400, guid: 820ed36779b31d345bf6cafada6f9a34,
+        type: 3}
+      propertyPath: guardPosition.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5341321651791994400, guid: 820ed36779b31d345bf6cafada6f9a34,
+        type: 3}
+      propertyPath: guardPosition.z
+      value: -4.07
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 820ed36779b31d345bf6cafada6f9a34, type: 3}
 --- !u!1 &354055984
@@ -4712,6 +4727,26 @@ PrefabInstance:
       propertyPath: uniqueIdent
       value: 1ebc51b6-5b39-4259-88b6-388b1fc6a5f1
       objectReference: {fileID: 0}
+    - target: {fileID: 5341321651791994400, guid: 820ed36779b31d345bf6cafada6f9a34,
+        type: 3}
+      propertyPath: guardPosition.x
+      value: -4.767
+      objectReference: {fileID: 0}
+    - target: {fileID: 5341321651791994400, guid: 820ed36779b31d345bf6cafada6f9a34,
+        type: 3}
+      propertyPath: guardPosition.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5341321651791994400, guid: 820ed36779b31d345bf6cafada6f9a34,
+        type: 3}
+      propertyPath: guardPosition.z
+      value: -24.442
+      objectReference: {fileID: 0}
+    - target: {fileID: 7703684679652439366, guid: 820ed36779b31d345bf6cafada6f9a34,
+        type: 3}
+      propertyPath: weaponDamage
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 820ed36779b31d345bf6cafada6f9a34, type: 3}
 --- !u!4 &795721833 stripped
@@ -6161,6 +6196,21 @@ PrefabInstance:
         type: 3}
       propertyPath: patrol
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5341321651791994400, guid: 820ed36779b31d345bf6cafada6f9a34,
+        type: 3}
+      propertyPath: guardPosition.x
+      value: -3.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 5341321651791994400, guid: 820ed36779b31d345bf6cafada6f9a34,
+        type: 3}
+      propertyPath: guardPosition.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5341321651791994400, guid: 820ed36779b31d345bf6cafada6f9a34,
+        type: 3}
+      propertyPath: guardPosition.z
+      value: 9.16
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 820ed36779b31d345bf6cafada6f9a34, type: 3}
@@ -7979,6 +8029,21 @@ PrefabInstance:
         type: 3}
       propertyPath: patrol
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5341321651791994400, guid: 820ed36779b31d345bf6cafada6f9a34,
+        type: 3}
+      propertyPath: guardPosition.x
+      value: 4.67
+      objectReference: {fileID: 0}
+    - target: {fileID: 5341321651791994400, guid: 820ed36779b31d345bf6cafada6f9a34,
+        type: 3}
+      propertyPath: guardPosition.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5341321651791994400, guid: 820ed36779b31d345bf6cafada6f9a34,
+        type: 3}
+      propertyPath: guardPosition.z
+      value: 22.61
       objectReference: {fileID: 0}
     - target: {fileID: 2610164672159694191, guid: 820ed36779b31d345bf6cafada6f9a34,
         type: 3}
@@ -10728,6 +10793,21 @@ PrefabInstance:
       propertyPath: patrol
       value: 
       objectReference: {fileID: 7684633111697122416}
+    - target: {fileID: 5341321651791994400, guid: 820ed36779b31d345bf6cafada6f9a34,
+        type: 3}
+      propertyPath: guardPosition.x
+      value: -1.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5341321651791994400, guid: 820ed36779b31d345bf6cafada6f9a34,
+        type: 3}
+      propertyPath: guardPosition.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5341321651791994400, guid: 820ed36779b31d345bf6cafada6f9a34,
+        type: 3}
+      propertyPath: guardPosition.z
+      value: 10.6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 820ed36779b31d345bf6cafada6f9a34, type: 3}
 --- !u!4 &1532836161 stripped
@@ -12194,6 +12274,21 @@ PrefabInstance:
         type: 3}
       propertyPath: uniqueIdent
       value: 0003ad8f-603b-42d6-b5bc-9d57816ee89e
+      objectReference: {fileID: 0}
+    - target: {fileID: 5341321651791994400, guid: 820ed36779b31d345bf6cafada6f9a34,
+        type: 3}
+      propertyPath: guardPosition.x
+      value: -1.92
+      objectReference: {fileID: 0}
+    - target: {fileID: 5341321651791994400, guid: 820ed36779b31d345bf6cafada6f9a34,
+        type: 3}
+      propertyPath: guardPosition.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5341321651791994400, guid: 820ed36779b31d345bf6cafada6f9a34,
+        type: 3}
+      propertyPath: guardPosition.z
+      value: -10.57
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 820ed36779b31d345bf6cafada6f9a34, type: 3}
@@ -13725,6 +13820,21 @@ PrefabInstance:
       propertyPath: patrol
       value: 
       objectReference: {fileID: 475942834}
+    - target: {fileID: 5341321651791994400, guid: 820ed36779b31d345bf6cafada6f9a34,
+        type: 3}
+      propertyPath: guardPosition.x
+      value: -27.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5341321651791994400, guid: 820ed36779b31d345bf6cafada6f9a34,
+        type: 3}
+      propertyPath: guardPosition.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5341321651791994400, guid: 820ed36779b31d345bf6cafada6f9a34,
+        type: 3}
+      propertyPath: guardPosition.z
+      value: -4.07
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 820ed36779b31d345bf6cafada6f9a34, type: 3}
 --- !u!1001 &1685990695
@@ -14873,6 +14983,11 @@ PrefabInstance:
     - target: {fileID: 6192275197123434765, guid: 9d6eefeac9bfd0c4ea8faaf49542e214,
         type: 3}
       propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7171911250226964050, guid: 9d6eefeac9bfd0c4ea8faaf49542e214,
+        type: 3}
+      propertyPath: weaponDamage
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8108366912198158263, guid: 9d6eefeac9bfd0c4ea8faaf49542e214,
