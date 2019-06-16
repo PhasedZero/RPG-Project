@@ -10,6 +10,7 @@ namespace RPG.Combat {
         [SerializeField] private float weaponDamage = 5f;
         [SerializeField] private GameObject weaponPrefab = null;
         [SerializeField] private Transform handTransform = null;
+        [SerializeField] private AnimatorOverrideController weaponOverride = null;
 
         private Health target;
         private Mover mover;
@@ -25,7 +26,7 @@ namespace RPG.Combat {
         }
 
         private void Start() {
-//            SpawnWeapon();
+            SpawnWeapon();
         }
 
         private void Update() {
@@ -46,6 +47,7 @@ namespace RPG.Combat {
 
         private void SpawnWeapon() {
             Instantiate(weaponPrefab, handTransform);
+            animator.runtimeAnimatorController = weaponOverride;
         }
 
         private void AttackBehavior() {
@@ -66,7 +68,7 @@ namespace RPG.Combat {
         public void Cancel() {
             var layer = animator.GetLayerIndex("Base Layer");
             
-            if (animator.GetCurrentAnimatorStateInfo(layer).IsName("Base Layer.Attack")) {
+            if (animator.GetCurrentAnimatorStateInfo(layer).IsName("Base Layer.Attack") && !animator.IsInTransition(layer)) {
                 animator.SetTrigger("stopAttack");
             }
             mover.Cancel();
