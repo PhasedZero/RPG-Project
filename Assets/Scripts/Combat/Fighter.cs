@@ -5,9 +5,7 @@ using UnityEngine;
 
 namespace RPG.Combat {
     public class Fighter : MonoBehaviour, IAction {
-        [SerializeField] private float weaponRange = 2f;
         [SerializeField] private float timeBetweenAttacks = 1f;
-        [SerializeField] private float weaponDamage = 5f;
         [SerializeField] private Transform handTransform = null;
         [SerializeField] private Weapon weapon = null;
 
@@ -62,7 +60,7 @@ namespace RPG.Combat {
         // Animation Event
         void Hit() {
             if (!target) return;
-            target.TakeDamage(weaponDamage);
+            target.TakeDamage(weapon.GetDamage());
         }
 
         public void Cancel() {
@@ -78,7 +76,7 @@ namespace RPG.Combat {
         }
 
         private bool InRange() {
-            return Vector3.Distance(transform.position, target.transform.position) <= weaponRange;
+            return Vector3.Distance(transform.position, target.transform.position) <= weapon.GetRange();
         }
 
         public bool CanAttack(GameObject combatTarget) {
