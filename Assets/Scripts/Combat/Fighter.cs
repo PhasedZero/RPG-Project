@@ -1,4 +1,5 @@
-﻿using RPG.Core;
+﻿using System;
+using RPG.Core;
 using RPG.Movement;
 using UnityEngine;
 
@@ -6,8 +7,9 @@ namespace RPG.Combat {
     public class Fighter : MonoBehaviour, IAction {
         [SerializeField] private float weaponRange = 2f;
         [SerializeField] private float timeBetweenAttacks = 1f;
-
         [SerializeField] private float weaponDamage = 5f;
+        [SerializeField] private GameObject weaponPrefab = null;
+        [SerializeField] private Transform handTransform = null;
 
         private Health target;
         private Mover mover;
@@ -16,11 +18,14 @@ namespace RPG.Combat {
 
         private float timeSinceLastAttack;
 
-        private void Start() {
+        private void Awake() {
             animator = GetComponent<Animator>();
             actionScheduler = GetComponent<ActionScheduler>();
             mover = GetComponent<Mover>();
-            
+        }
+
+        private void Start() {
+            SpawnWeapon();
         }
 
         private void Update() {
@@ -37,6 +42,10 @@ namespace RPG.Combat {
                 mover.Cancel();
                 AttackBehavior();
             }
+        }
+
+        private void SpawnWeapon() {
+            Instantiate(weaponPrefab, handTransform);
         }
 
         private void AttackBehavior() {
