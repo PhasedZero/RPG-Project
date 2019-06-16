@@ -1,5 +1,4 @@
-﻿using System;
-using RPG.Core;
+﻿using RPG.Core;
 using RPG.Movement;
 using UnityEngine;
 
@@ -7,7 +6,7 @@ namespace RPG.Combat {
     public class Fighter : MonoBehaviour, IAction {
         [SerializeField] private float timeBetweenAttacks = 1f;
         [SerializeField] private Transform handTransform = null;
-        [SerializeField] private Weapon weapon = null;
+        [SerializeField] private Weapon defaultWeapon = null;
 
         private Health target;
         private Mover mover;
@@ -15,6 +14,7 @@ namespace RPG.Combat {
         private Animator animator;
 
         private float timeSinceLastAttack;
+        private Weapon currentWeapon = null;
 
         private void Awake() {
             animator = GetComponent<Animator>();
@@ -23,11 +23,11 @@ namespace RPG.Combat {
         }
 
         private void Start() {
-            SpawnWeapon();
+            EquipWeapon(defaultWeapon);
         }
 
-        private void SpawnWeapon() {
-            if (weapon == null) return;
+        public void EquipWeapon(Weapon weapon) {
+            currentWeapon = weapon;
             weapon.Spawn(handTransform, animator);
         }
 
@@ -60,7 +60,7 @@ namespace RPG.Combat {
         // Animation Event
         void Hit() {
             if (!target) return;
-            target.TakeDamage(weapon.GetDamage());
+            target.TakeDamage(currentWeapon.GetDamage());
         }
 
         public void Cancel() {
@@ -76,7 +76,7 @@ namespace RPG.Combat {
         }
 
         private bool InRange() {
-            return Vector3.Distance(transform.position, target.transform.position) <= weapon.GetRange();
+            return Vector3.Distance(transform.position, target.transform.position) <= currentWeapon.GetRange();
         }
 
         public bool CanAttack(GameObject combatTarget) {
@@ -89,5 +89,20 @@ namespace RPG.Combat {
             actionScheduler.StartAction(this);
             target = combatTarget.GetComponent<Health>();
         }
+        
+//        public object CaptureState()
+//        {
+//            return JsonUtility.ToJson(currentWeapon);
+//        }
+// 
+//        public void RestoreState(object state)
+//        {
+//            Weapon restored = ScriptableObject.CreateInstance<Weapon>();
+//            JsonUtility.FromJsonOverwrite((string)state, restored);
+//            EquipWeapon(restored);
+//        }
+//        + destroying weapon (GameObject only) that character was holding...
+
+
     }
 }
