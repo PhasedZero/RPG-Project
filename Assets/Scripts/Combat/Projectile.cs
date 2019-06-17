@@ -30,7 +30,8 @@ namespace RPG.Combat {
         }
 
         private void OnTriggerEnter(Collider other) {
-            if (other == targetCollider) {
+            var otherHealth = other.GetComponent<Health>();
+            if (otherHealth) {
                 currentTarget.TakeDamage(projectileDamage + weaponDamage);
             }
             Destroy(gameObject);
