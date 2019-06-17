@@ -5,6 +5,7 @@ namespace RPG.Combat {
     public class Projectile : MonoBehaviour {
         [SerializeField] private float speed = 10f;
         [SerializeField] private float projectileDamage = 2f;
+        [SerializeField] private bool isHoming;
         
         private Health currentTarget = null;
         private Collider targetCollider;
@@ -12,7 +13,10 @@ namespace RPG.Combat {
 
         private void Update() {
             if (!currentTarget) return;
-            transform.LookAt(GetVector());
+            if (isHoming) {
+                transform.LookAt(GetVector());
+            }
+            
             transform.Translate(speed * Time.deltaTime * Vector3.forward);
         }
 
@@ -27,6 +31,7 @@ namespace RPG.Combat {
             currentTarget = target;
             weaponDamage = damage;
             targetCollider = currentTarget.GetComponent<Collider>();
+            transform.LookAt(GetVector());
         }
 
         private void OnTriggerEnter(Collider other) {

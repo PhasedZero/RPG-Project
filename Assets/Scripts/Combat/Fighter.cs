@@ -8,7 +8,6 @@ namespace RPG.Combat {
         [SerializeField] private Transform rightHandTransform = null;
         [SerializeField] private Transform leftHandTransform = null;
         [SerializeField] private Weapon defaultWeapon = null;
-        [SerializeField] private Projectile ammo;
 
         private Health target;
         private Mover mover;
