@@ -1,11 +1,14 @@
-using System;
+using RPG.Core;
 using UnityEngine;
 
 namespace RPG.Combat {
     public class Projectile : MonoBehaviour {
         [SerializeField] private float speed = 10f;
-        [SerializeField] private Transform currentTarget = null;
+        [SerializeField] private float projectileDamage = 2f;
+        
+        private Health currentTarget = null;
         private Collider targetCollider;
+        private float weaponDamage = 0f;
 
         private void Update() {
             if (!currentTarget) return;
@@ -15,20 +18,21 @@ namespace RPG.Combat {
 
         private Vector3 GetVector() {
             if (!targetCollider) {
-                targetCollider = currentTarget.GetComponent<Collider>();
-            }
-
-            if (!targetCollider) {
-                return currentTarget.position;
+                return currentTarget.transform.position;
             }
             return targetCollider.bounds.center;
         }
 
-        public void SetTarget(Transform target) {
+        public void SetTargetAndDamage(Health target, float damage) {
             currentTarget = target;
+            weaponDamage = damage;
+            targetCollider = currentTarget.GetComponent<Collider>();
         }
 
         private void OnTriggerEnter(Collider other) {
+            if (other == targetCollider) {
+                currentTarget.TakeDamage(projectileDamage + weaponDamage);
+            }
             Destroy(gameObject);
         }
     }

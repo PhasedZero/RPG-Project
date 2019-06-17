@@ -65,16 +65,19 @@ namespace RPG.Combat {
         }
 
         // Animation Event
-        public void Hit() {
-            if (!target) return;
-            target.TakeDamage(currentWeapon.GetDamage());
+        private void Hit() {
+            if (!target || target.IsDead) return;
+            if (currentWeapon.HasProjectile()) {
+                currentWeapon.LaunchProjectile(rightHandTransform, leftHandTransform, target);
+            }
+            else {
+                target.TakeDamage(currentWeapon.GetDamage());
+            }
         }
 
         // Animation Event
         public void Shoot() {
-            if (!target) return;
-            Instantiate(ammo);
-            target.TakeDamage(currentWeapon.GetDamage());
+            Hit();
         }
 
         public void Cancel() {
