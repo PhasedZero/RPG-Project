@@ -5,8 +5,10 @@ using UnityEngine;
 namespace RPG.Combat {
     public class Fighter : MonoBehaviour, IAction {
         [SerializeField] private float timeBetweenAttacks = 1f;
-        [SerializeField] private Transform handTransform = null;
+        [SerializeField] private Transform rightHandTransform = null;
+        [SerializeField] private Transform leftHandTransform = null;
         [SerializeField] private Weapon defaultWeapon = null;
+        [SerializeField] private Projectile ammo;
 
         private Health target;
         private Mover mover;
@@ -15,6 +17,7 @@ namespace RPG.Combat {
 
         private float timeSinceLastAttack;
         private Weapon currentWeapon = null;
+        private GameObject equippedWeapon;
 
         private void Awake() {
             animator = GetComponent<Animator>();
@@ -27,8 +30,12 @@ namespace RPG.Combat {
         }
 
         public void EquipWeapon(Weapon weapon) {
+            if (equippedWeapon) {
+                Destroy(equippedWeapon);
+            }
+
             currentWeapon = weapon;
-            weapon.Spawn(handTransform, animator);
+            equippedWeapon = weapon.Spawn(rightHandTransform, leftHandTransform, animator);
         }
 
         private void Update() {
@@ -58,8 +65,15 @@ namespace RPG.Combat {
         }
 
         // Animation Event
-        void Hit() {
+        public void Hit() {
             if (!target) return;
+            target.TakeDamage(currentWeapon.GetDamage());
+        }
+
+        // Animation Event
+        public void Shoot() {
+            if (!target) return;
+            Instantiate(ammo);
             target.TakeDamage(currentWeapon.GetDamage());
         }
 
@@ -89,7 +103,7 @@ namespace RPG.Combat {
             actionScheduler.StartAction(this);
             target = combatTarget.GetComponent<Health>();
         }
-        
+
 //        public object CaptureState()
 //        {
 //            return JsonUtility.ToJson(currentWeapon);
@@ -102,7 +116,5 @@ namespace RPG.Combat {
 //            EquipWeapon(restored);
 //        }
 //        + destroying weapon (GameObject only) that character was holding...
-
-
     }
 }
