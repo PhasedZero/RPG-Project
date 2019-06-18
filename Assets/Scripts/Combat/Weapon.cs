@@ -8,11 +8,13 @@ namespace RPG.Combat {
         [SerializeField] private GameObject weaponPrefab = null;
         [SerializeField] private float damage = 0f;
         [SerializeField] private float range = 2f;
+        [SerializeField] private float atkSpd = 1f;
         [SerializeField] private bool isLeftHanded = false;
         [SerializeField] private Projectile projectile = null;
 
         public float GetDamage() => damage;
         public float GetRange() => range;
+        public float GetAtkSpd() => atkSpd;
 
         public GameObject Spawn(Transform rightHand, Transform leftHand, Animator animator) {
             if (animatorOverride != null) {
@@ -26,9 +28,9 @@ namespace RPG.Combat {
             return projectile != null;
         }
         
-        public void LaunchProjectile(Transform rightHand, Transform leftHand, Health target) {
+        public void LaunchProjectile(Transform rightHand, Transform leftHand, Health target, Collider source) {
             var projectileInstance = Instantiate(projectile, (isLeftHanded ? leftHand : rightHand).position, Quaternion.identity);
-            projectileInstance.SetTargetAndDamage(target, damage);
+            projectileInstance.SetTargetAndDamageAndSource(target, damage, source);
         }
     }
 }

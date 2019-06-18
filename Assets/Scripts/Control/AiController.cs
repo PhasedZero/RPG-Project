@@ -1,10 +1,10 @@
 ﻿using System;
 using RPG.Combat;
-using RPG.Control;
+using RPG.Core;
 using RPG.Movement;
 using UnityEngine;
 
-namespace RPG.Core {
+namespace RPG.Control {
     public class AiController : MonoBehaviour {
         [SerializeField] private float chaseDistance = 5f;
         [SerializeField] private float suspicionTime = 3f;

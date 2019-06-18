@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace RPG.Combat {
     public class Fighter : MonoBehaviour, IAction {
-        [SerializeField] private float timeBetweenAttacks = 1f;
+        [SerializeField] private float attackSpeed = 1f;
         [SerializeField] private Transform rightHandTransform = null;
         [SerializeField] private Transform leftHandTransform = null;
         [SerializeField] private Weapon defaultWeapon = null;
@@ -13,15 +13,17 @@ namespace RPG.Combat {
         private Mover mover;
         private ActionScheduler actionScheduler;
         private Animator animator;
+        private Collider thisCollider;
 
         private float timeSinceLastAttack;
         private Weapon currentWeapon = null;
-        private GameObject equippedWeapon;
+        private GameObject weaponGameObject;
 
         private void Awake() {
             animator = GetComponent<Animator>();
             actionScheduler = GetComponent<ActionScheduler>();
             mover = GetComponent<Mover>();
+            thisCollider = GetComponent<Collider>();
         }
 
         private void Start() {
@@ -29,12 +31,12 @@ namespace RPG.Combat {
         }
 
         public void EquipWeapon(Weapon weapon) {
-            if (equippedWeapon) {
-                Destroy(equippedWeapon);
+            if (weaponGameObject) {
+                Destroy(weaponGameObject);
             }
 
             currentWeapon = weapon;
-            equippedWeapon = weapon.Spawn(rightHandTransform, leftHandTransform, animator);
+            weaponGameObject = weapon.Spawn(rightHandTransform, leftHandTransform, animator);
         }
 
         private void Update() {
@@ -56,7 +58,7 @@ namespace RPG.Combat {
 
         private void AttackBehavior() {
             transform.LookAt(target.transform);
-            if (timeBetweenAttacks <= timeSinceLastAttack) {
+            if (attackSpeed * currentWeapon.GetAtkSpd() <= timeSinceLastAttack) {
                 timeSinceLastAttack = 0f;
                 animator.SetTrigger("attack");
                 // Triggers in Hit() event
@@ -67,7 +69,7 @@ namespace RPG.Combat {
         private void Hit() {
             if (!target || target.IsDead) return;
             if (currentWeapon.HasProjectile()) {
-                currentWeapon.LaunchProjectile(rightHandTransform, leftHandTransform, target);
+                currentWeapon.LaunchProjectile(rightHandTransform, leftHandTransform, target, thisCollider);
             }
             else {
                 target.TakeDamage(currentWeapon.GetDamage());
