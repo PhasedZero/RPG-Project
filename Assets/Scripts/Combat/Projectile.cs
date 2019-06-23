@@ -12,7 +12,7 @@ namespace RPG.Combat {
         [SerializeField] private GameObject[] destroyOnHit;
         [SerializeField] private float lifeAfterImpact = 2f;
         
-        private Health currentTarget = null;
+        private Health currentTarget;
         private Collider targetCollider;
         private float weaponDamage = 0f;
         private Collider sourceCollider;
@@ -70,6 +70,10 @@ namespace RPG.Combat {
             if (hitEffect) {
                 var fx = Instantiate(hitEffect, transform.position, transform.rotation);
                 Destroy(fx,2f);
+            }
+
+            foreach (var toDestroy in destroyOnHit) {
+                Destroy(toDestroy);
             }
 
             Destroy(gameObject, lifeAfterImpact);
