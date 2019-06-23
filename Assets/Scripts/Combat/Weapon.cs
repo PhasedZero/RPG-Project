@@ -20,10 +20,20 @@ namespace RPG.Combat {
             if (animatorOverride != null) {
                 animator.runtimeAnimatorController = animatorOverride;
             }
+            else {
+                SetDefaultAnimatorController(animator);
+            }
             return weaponPrefab != null ? 
                 Instantiate(weaponPrefab, isLeftHanded ? leftHand : rightHand) : null;
         }
-        
+
+        private static void SetDefaultAnimatorController(Animator animator) {
+            var overrideController = animator.runtimeAnimatorController as AnimatorOverrideController;
+            if (overrideController) {
+                animator.runtimeAnimatorController = overrideController.runtimeAnimatorController;
+            }
+        }
+
         public bool HasProjectile() {
             return projectile != null;
         }
