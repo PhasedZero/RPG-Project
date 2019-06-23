@@ -6,8 +6,12 @@ namespace RPG.Combat {
         [SerializeField] private float speed = 10f;
         [SerializeField] private float projectileDamage = 2f;
         [SerializeField] private bool isHoming;
-        [SerializeField] bool onlyHitTarget = false;
-
+        [SerializeField] private bool onlyHitTarget = false;
+        [SerializeField] private GameObject hitEffect;
+        [SerializeField] private float maxLifeTime = 10f;
+        [SerializeField] private GameObject[] destroyOnHit;
+        [SerializeField] private float lifeAfterImpact = 2f;
+        
         private Health currentTarget = null;
         private Collider targetCollider;
         private float weaponDamage = 0f;
@@ -22,7 +26,7 @@ namespace RPG.Combat {
 
         private void Update() {
             CheckRange();
-            if (!currentTarget) SelfDestruct();
+            if (!currentTarget) Destroy(gameObject);
             if (isHoming && !currentTarget.IsDead) {
                 transform.LookAt(GetVector());
             }
@@ -41,16 +45,13 @@ namespace RPG.Combat {
             transform.LookAt(GetVector());
             sourceCollider = source;
             isAi = !sourceCollider.CompareTag("Player");
+            Destroy(gameObject,maxLifeTime);
         }
 
         private void CheckRange() {
             if (Vector3.Distance(startLocation, transform.position) >= maxRange) {
-                SelfDestruct();
+                Destroy(gameObject);
             }
-        }
-        
-        private void SelfDestruct() {
-            Destroy(gameObject);
         }
 
         private void OnTriggerEnter(Collider other) {
@@ -65,7 +66,13 @@ namespace RPG.Combat {
 
                 currentTarget.TakeDamage(projectileDamage + weaponDamage);
             }
-            SelfDestruct();
+
+            if (hitEffect) {
+                var fx = Instantiate(hitEffect, transform.position, transform.rotation);
+                Destroy(fx,2f);
+            }
+
+            Destroy(gameObject, lifeAfterImpact);
         }
     }
 }
